@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <link rel="icon" type="image/pfp.png" href="pfp.png">
+      <title>SoyNicoMx - Portfolio</title>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+      <link rel="stylesheet" href="https://use.hugeicons.com/font/icons.css" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <style>
+         @import url("https://fonts.googleapis.com/css2?family=Ubuntu&display=swap");
+         body {
+         font-family: "Ubuntu", sans-serif;
+         margin: 0;
+         padding: 0;
+         overflow-x: hidden;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         height: 100vh;
+         }
+         .top-bar {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 30px;
+   background-color: #111;
+   color: #ffffff;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 0 10px;
+   font-size: 12px;
+   z-index: 1000;
+}
+
+.top-left .dot {
+   width: 35px;
+   height: 8px;
+   background-color: #ccc;
+   border-radius: 10px;
+   display: inline-block;
+}
+
+.top-left .dot2 {
+   width: 8px;
+   height: 8px;
+   background-color: #7a7a7a;
+   border-radius: 50%;
+   display: inline-block;
+}
+
+.top-center {
+   display: flex;
+   gap: 10px;
+   font-family: sans-serif;
+}
+
+.top-right i {
+   margin-left: 10px;
+   font-size: 14px;
+   cursor: default;
+}
+         * {
+         box-sizing: border-box;
+         }
+         #background-video {
+         position: fixed;
+         right: 0;
+         bottom: 0;
+         min-width: 100%;
+         min-height: 100%;
+         width: auto;
+         height: auto;
+         z-index: -1;
+         object-fit: cover;
+         filter: brightness(0.6);
+         }
+         .container {
+         background-color: rgba(17, 20, 24, 0.85);
+         border: 3px solid #ffffff0e;
+         border-radius: 12px;
+         width: 800px;
+         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+         position: relative;
+         z-index: 1;
+         padding-bottom: 20px;
+         }
+         .row {
+         padding: 5px 10px;
+         background: #07090a;
+         border-top-left-radius: 12px;
+         border-top-right-radius: 12px;
+         display: flex;
+         align-items: center;
+         justify-content: flex-end;
+         height: 30px;
+         position: relative;
+         }
+         .title {
+         position: absolute;
+         left: 50%;
+         transform: translateX(-50%);
+         font-size: 14px;
+         color: #ffffff;
+         pointer-events: none;
+         font-weight: bolder;
+         }
+         .content {
+         padding: 10px;
+         }
+         .window-controls {
+         display: flex;
+         gap: 10px;
+         }
+         .window-icon {
+         width: 20px;
+         height: 20px;
+         border-radius: 50%;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         background-color: #555;
+         transition: background-color 0.2s ease;
+         cursor: pointer;
+         }
+         .window-icon.close,
+         .window-icon.minimize,
+         .window-icon.maximize {
+         background-color: #272727;
+         }
+         .window-icon:hover {
+         filter: brightness(1.5);
+         }
+         .window-icon i {
+         font-size: 10px;
+         color: white;
+         pointer-events: none;
+         }
+         .slide-container {
+         position: relative;
+         width: 100%;
+         max-width: 100%;
+         margin: auto;
+         overflow: hidden;
+         border-radius: 10px;
+         }
+         .slides {
+         display: flex;
+         transition: transform 0.5s ease-in-out;
+         }
+         .slide {
+         min-width: 100%;
+         box-sizing: border-box;
+         position: relative;
+         }
+         .slide img {
+         width: 100%;
+         display: block;
+         border-radius: 10px;
+         }
+         .slide-caption {
+         position: absolute;
+         bottom: 0;
+         width: 100%;
+         background: rgba(32, 32, 32, 0.274);
+         color: #fff;
+         padding: 20px;
+         box-sizing: border-box;
+         border-bottom-left-radius: 10px;
+         border-bottom-right-radius: 10px;
+         }
+         .slide-caption h2 {
+         margin: 0 0 10px;
+         font-size: 20px;
+         }
+         .slide-caption p {
+         margin: 0;
+         font-size: 12px;
+         }
+         .arrow {
+         position: absolute;
+         top: 50%;
+         transform: translateY(-50%);
+         background: rgba(0, 0, 0, 0);
+         color: #fff;
+         border: none;
+         padding: 10px;
+         cursor: pointer;
+         font-size: 18px;
+         border-radius: 50%;
+         }
+         .arrow.left {
+         left: 10px;
+
+         }
+         .arrow.right {
+         right: 10px;
+
+         }
+         .dots {
+         text-align: center;
+         padding: 10px 0;
+         }
+         .dot {
+         display: inline-block;
+         width: 10px;
+         height: 10px;
+         margin: 0 5px;
+         background: #fff;
+         border-radius: 50%;
+         opacity: 0.3;
+         cursor: pointer;
+         }
+         .dot.active {
+         opacity: 1;
+         }
+         /* Taskbar Styles */
+         .taskbar {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(30, 30, 30, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 8px 16px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            z-index: 1001;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+         }
+
+         .taskbar-app {
+            width: 30px;
+            height: 30px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+         }
+
+         .taskbar-app:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+         }
+
+         .taskbar-app.active {
+            transform: translateY(-2px);
+         }
+
+         .taskbar-app.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: #6fabf0;
+            border-radius: 50%;
+         }
+
+         .link {
+            color: #6fabf0;
+         }	
+
+         .taskbar-app i {
+            font-size: 24px;
+            color: white;
+         }
+
+         .taskbar-app.firefox {
+            background: linear-gradient(135deg, #6fabf000, #6fabf000);
+         }
+
+         .taskbar-app.github {
+            background: linear-gradient(135deg, #6fabf000, #6fabf000);
+         }
+
+         .taskbar-app.youtube {
+            background: linear-gradient(135deg, #6fabf000, #6fabf000);
+         }
+
+      </style>
+   </head>
+   <body>
+      <div class="top-bar">
+         <div class="top-left">
+            <span class="dot"></span>
+            <span class="dot2"></span>
+         </div>
+         <div class="top-center">
+            <span id="date"></span> <span id="time"></span>
+         </div>
+         <div class="top-right">
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-volume-up"></i>
+            <i class="fas fa-battery-full"></i>
+         </div>
+      </div>
+      <video autoplay muted loop id="background-video">
+         <source src="background.mp4" type="video/mp4" />
+         Your browser does not support the video tag.
+      </video>
+      <div class="container">
+         <div class="row">
+            <div class="title">SoyNicoMx - Proyectos</div>
+            <div class="window-controls">
+               <div class="window-icon minimize" title="Minimize">
+                  <i class="fas fa-window-minimize"></i>
+               </div>
+               <div class="window-icon maximize" title="Maximize">
+                  <i class="fa-regular fa-window-restore"></i>
+               </div>
+               <div class="window-icon close" title="Close">
+                  <i class="fa-solid fa-x"></i>
+               </div>
+            </div>
+         </div>
+         <div class="content">
+            <div class="slide-container">
+               <div class="slides">
+                  <div class="slide">
+                     <img src="boxpvp.png" alt="Slide 1">
+                     <div class="slide-caption">
+                        <h2 style="color:rgb(255, 0, 0);">Servidor - BoxPvP</h2>
+                        <p>BoxPvP fue un servidor de minecraft BoxPvP con tematica de REPO.</p>
+                     </div>
+                  </div>
+                  <div class="slide">
+                     <img src="avalor.png" alt="Slide 2">
+                     <div class="slide-caption">
+                        <h2 style="color:rgb(0, 140, 255);">Servidor - Avalor Network</h2>
+                        <p>Avalor fue una network de minecraft con 3 modalidades, RepoBox, Survival y ElytraPvP.</p>
+                     </div>
+                  </div>
+                  <div class="slide">
+                     <img src="pokbox.png" alt="Slide 3">
+                     <div class="slide-caption"> 
+                        <h2 style="color:rgb(255, 0, 43);">Servidor - PokBox</h2>
+                        <p>PokBox fue un servidor de minecraft BoxPvP tematica Pokemon pero en Ingles.</p>
+                     </div>
+                  </div>
+                  <div class="slide">
+                     <img src="pokemon.png" alt="Slide 4">
+                     <div class="slide-caption">
+                        <h2 style="color:rgb(255, 0, 0);">Box PvP Map - Pokemon</h2>
+                        <p>Mapa de boxpvp con tematica Pokemon.</p>
+                        <a href="https://builtbybit.com/resources/box-pvp-map-pokemon.32737/" target="_blank" style="color: #ff0000;">Link al Mapa</a>
+                     </div>
+                  </div>
+                  <div class="slide">
+                     <img src="brawl.png" alt="Slide 5">
+                     <div class="slide-caption">
+                        <h2 style="color:rgb(251, 255, 0);">Box PvP Map - BrawlStars</h2>
+                        <p>Mapa de boxpvp con tematica de Brawlstars.</p>
+                        <a href="https://builtbybit.com/resources/box-pvp-map-brawlstars-200x200.50077/" target="_blank" style="color: #ff0000;">Link al Mapa</a>
+                     </div>
+                  </div>
+                  <div class="slide">
+                     <img src="repo.png" alt="Slide 6">
+                     <div class="slide-caption">
+                        <h2 style="color:rgb(0, 87, 0);">BoxPvP Map - REPO</h2>
+                        <p>Mapa de boxpvp con tematica de REPO.</p>
+                        <a href="https://builtbybit.com/resources/boxpvp-map-repo-300x300.68956/" target="_blank" style="color: #ff0000;">Link al Mapa</a>
+                     </div>
+                  </div>
+                  <div class="slide">
+                     <img src="reposetup.png" alt="Slide 6">
+                     <div class="slide-caption">
+                        <h2 style="color:rgb(0, 87, 0);">RepoBox - BoxPvP Setup ES</h2>
+                        <p>Setup de boxpvp con tematica de REPO.</p>
+                        <a href="https://builtbybit.com/resources/repobox-boxpvp-setup-es.69400/" target="_blank" style="color: #ff0000;">Link al Mapa</a>
+                     </div>
+                  </div>
+               </div>
+               <button class="arrow left" onclick="moveSlide(-1)">&#10094;</button>
+               <button class="arrow right" onclick="moveSlide(1)">&#10095;</button>
+            </div>
+      <!-- Taskbar -->
+      <div class="taskbar">
+         <div class="taskbar-app firefox" data-page="index.html" title="Página Principal">
+            <i class="fa-solid fa-house"></i>
+         </div>
+         <div class="taskbar-app github" data-page="proyectos.html" title="Proyectos">
+            <i class="fa-solid fa-diagram-project"></i>
+         </div>
+      </div>
+            </div>
+         </div>
+      </div>
+      <script>
+         let currentIndex = 0;
+         const slides = document.querySelector('.slides');
+         const totalSlides = document.querySelectorAll('.slide').length;
+         const dots = document.querySelectorAll('.dot');
+
+         function updateSlide() {
+            slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+            dots.forEach((dot, index) => {
+               dot.classList.toggle('active', index === currentIndex);
+            });
+         }
+
+         function moveSlide(direction) {
+            currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
+            updateSlide();
+         }
+
+         function setSlide(index) {
+            currentIndex = index;
+            updateSlide();
+         }
+
+         updateSlide();
+      </script>
+
+<script>
+function updateDateTime() {
+   const now = new Date();
+   const dateElement = document.getElementById('date');
+   const timeElement = document.getElementById('time');
+
+   const options = { month: 'short', day: 'numeric' };
+   const dateStr = now.toLocaleDateString('en-US', options);
+   
+   let hours = now.getHours();
+   const minutes = now.getMinutes().toString().padStart(2, '0');
+   const ampm = hours >= 12 ? 'PM' : 'AM';
+   hours = hours % 12 || 12;
+
+   const timeStr = `${hours}:${minutes} ${ampm}`;
+
+   dateElement.textContent = dateStr;
+   timeElement.textContent = timeStr;
+}
+
+updateDateTime();
+setInterval(updateDateTime, 30000);
+
+// Taskbar functionality
+const taskbarApps = document.querySelectorAll('.taskbar-app');
+
+taskbarApps.forEach(app => {
+   app.addEventListener('click', () => {
+      const page = app.getAttribute('data-page');
+      
+      // Add click animation
+      app.style.transform = 'translateY(-2px) scale(0.95)';
+      
+      setTimeout(() => {
+         app.style.transform = '';
+         // Navigate to the page
+         window.location.href = page;
+      }, 150);
+   });
+   
+   // Add hover effect
+   app.addEventListener('mouseenter', () => {
+      app.style.transform = 'translateY(-4px)';
+   });
+   
+   app.addEventListener('mouseleave', () => {
+      app.style.transform = '';
+   });
+});
+</script>
+
+   </body>
+</html>
+   </body>
+</html>

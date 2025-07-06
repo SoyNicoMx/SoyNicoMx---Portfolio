@@ -28,6 +28,50 @@
          * {
          box-sizing: border-box;
          }
+.top-bar {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 30px;
+   background-color: #111;
+   color: #ffffff;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 0 10px;
+   font-size: 12px;
+   z-index: 1000;
+}
+
+.top-left .dot {
+   width: 35px;
+   height: 8px;
+   background-color: #ccc;
+   border-radius: 10px;
+   display: inline-block;
+}
+
+.top-left .dot2 {
+   width: 8px;
+   height: 8px;
+   background-color: #7a7a7a;
+   border-radius: 50%;
+   display: inline-block;
+}
+
+.top-center {
+   display: flex;
+   gap: 10px;
+   font-family: sans-serif;
+}
+
+.top-right i {
+   margin-left: 10px;
+   font-size: 14px;
+   cursor: default;
+}
+
          #background-video {
          position: fixed;
          right: 0;
@@ -171,7 +215,7 @@
          color: #ddd;
          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
          font-family: "Ubuntu", sans-serif;
-         flex: 1 1 300px; /* flexible size, min width 300px */
+         flex: 1 1 300px; 
          max-width: 400px;
          }
          .discord-invite-widget .server-icon,
@@ -241,9 +285,163 @@
          .social-buttons a:hover {
          color: #4d5efa;
          }
+
+         /* Taskbar Styles */
+         .taskbar {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(30, 30, 30, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 8px 16px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            z-index: 1001;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+         }
+
+         .taskbar-app {
+            width: 30px;
+            height: 30px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+         }
+
+         .taskbar-app:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+         }
+
+         .taskbar-app.active {
+            transform: translateY(-2px);
+         }
+
+         .taskbar-app.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: #6fabf0;
+            border-radius: 50%;
+         }
+
+         .taskbar-app i {
+            font-size: 24px;
+            color: white;
+         }
+
+         .taskbar-app.firefox {
+            background: linear-gradient(135deg, #6fabf000, #6fabf000);
+         }
+
+         .taskbar-app.github {
+            background: linear-gradient(135deg, #6fabf000, #6fabf000);
+         }
+
+         .taskbar-app.youtube {
+            background: linear-gradient(135deg, #6fabf000, #6fabf000);
+         }
+
+         /* Website Viewer Modal */
+         .website-viewer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+         }
+
+         .website-viewer.active {
+            display: flex;
+         }
+
+         .website-window {
+            background: #1a1a1a;
+            border-radius: 12px;
+            width: 90%;
+            height: 90%;
+            max-width: 1200px;
+            max-height: 800px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+         }
+
+         .website-header {
+            background: #2a2a2a;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #444;
+         }
+
+         .website-controls {
+            display: flex;
+            gap: 8px;
+         }
+
+         .website-control {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+         }
+
+         .website-control.close { background: #ff5f57; }
+         .website-control.minimize { background: #ffbd2e; }
+         .website-control.maximize { background: #28ca42; }
+
+         .website-title {
+            color: #ccc;
+            font-size: 14px;
+            font-weight: 500;
+         }
+
+         .website-iframe {
+            flex: 1;
+            border: none;
+            background: white;
+         }
       </style>
    </head>
    <body>
+<div class="top-bar">
+   <div class="top-left">
+      <span class="dot"></span>
+      <span class="dot2"></span>
+   </div>
+   <div class="top-center">
+      <span id="date"></span> <span id="time"></span>
+   </div>
+   <div class="top-right">
+      <i class="fas fa-wifi"></i>
+      <i class="fas fa-volume-up"></i>
+      <i class="fas fa-battery-full"></i>
+   </div>
+</div>
+
       <video autoplay muted loop id="background-video">
          <source src="background.mp4" type="video/mp4" />
          Your browser does not support the video tag.
@@ -292,15 +490,15 @@
          <div class="discord-section">
             <div class="discord-invite-widget">
                <img
-                  src="logo.png"
+                  src="nax.png"
                   alt="Discord Server Icon"
                   class="server-icon"
                   />
                <div class="invite-info">
-                  <h4>BoxPvP</h4>
-                  <p>¡Discord de mi servidor de Minecraft!</p>
+                  <h4>NAX Entertainment</h4>
+                  <p>¡Discord de NAX Entertainment!</p>
                   <a
-                     href="https://discord.gg/nRq77GRqZP"
+                     href="https://discord.gg/xEa9qaBvGh"
                      target="_blank"
                      rel="noopener"
                      class="invite-button"
@@ -326,5 +524,67 @@
             </div>
          </div>
       </div>
+
+      <!-- Taskbar -->
+      <div class="taskbar">
+         <div class="taskbar-app firefox" data-page="index.html" title="Página Principal">
+            <i class="fa-solid fa-house"></i>
+         </div>
+         <div class="taskbar-app github" data-page="proyectos.html" title="Proyectos">
+            <i class="fa-solid fa-diagram-project"></i>
+         </div>
+      </div>
+
+<script>
+function updateDateTime() {
+   const now = new Date();
+   const dateElement = document.getElementById('date');
+   const timeElement = document.getElementById('time');
+
+   const options = { month: 'short', day: 'numeric' };
+   const dateStr = now.toLocaleDateString('en-US', options);
+   
+   let hours = now.getHours();
+   const minutes = now.getMinutes().toString().padStart(2, '0');
+   const ampm = hours >= 12 ? 'PM' : 'AM';
+   hours = hours % 12 || 12;
+
+   const timeStr = `${hours}:${minutes} ${ampm}`;
+
+   dateElement.textContent = dateStr;
+   timeElement.textContent = timeStr;
+}
+
+updateDateTime();
+setInterval(updateDateTime, 30000);
+
+// Taskbar functionality
+const taskbarApps = document.querySelectorAll('.taskbar-app');
+
+taskbarApps.forEach(app => {
+   app.addEventListener('click', () => {
+      const page = app.getAttribute('data-page');
+      
+      // Add click animation
+      app.style.transform = 'translateY(-2px) scale(0.95)';
+      
+      setTimeout(() => {
+         app.style.transform = '';
+         // Navigate to the page
+         window.location.href = page;
+      }, 150);
+   });
+   
+   // Add hover effect
+   app.addEventListener('mouseenter', () => {
+      app.style.transform = 'translateY(-4px)';
+   });
+   
+   app.addEventListener('mouseleave', () => {
+      app.style.transform = '';
+   });
+});
+</script>
+
    </body>
 </html>
